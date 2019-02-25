@@ -1,5 +1,6 @@
 package com.example.shoppingcalculator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,5 +28,19 @@ public class AddItemActivity extends AppCompatActivity {
         showItems.setText(size);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        String item_name = showItems.getText().toString();
+        double item_price = Double.parseDouble(itemPrice.getText().toString());
+        item_price = Math.round(item_price*100.0) / 100.0;  //Rounding to 2 decimal places
+        double quantity = Double.parseDouble(itemQuantity.getText().toString());
+        if (quantity > 0 && item_price > 0) {
+            MainActivity.shoppingItems.add(new Item(item_name, item_price, quantity));
+            Intent intent = new Intent(AddItemActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 }
