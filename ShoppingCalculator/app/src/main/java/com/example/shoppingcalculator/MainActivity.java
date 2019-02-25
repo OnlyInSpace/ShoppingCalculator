@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Initialize Variables
     Button compute, addItem, showList;
     EditText itemName, itemPrice, itemQuantity, total, salesTax;
     public static List<Item> shoppingItems = new ArrayList<Item>();
@@ -21,23 +22,16 @@ public class MainActivity extends AppCompatActivity {
     public static double Total = 0.0;
     public double sales_Tax = 0.0;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        computeTotal();
-        total.setText(Double.toString(Total));
-    }
-
-
+    // ComputeTotal method meant to find the total of all items in the list
     public void computeTotal() {
         Total = 0.0;
         for (Item item: shoppingItems){
             Total += item.getTotal();
-            double temp = Total * sales_Tax;
-            Total = Total + temp;
         }
-        Total = Math.round(Total*100.0) / 100.0;  //Rounding to 2 decimal places
+        Total = (Total * sales_Tax) + Total;
+        Total = Math.round(Total*100.0) / 100.0; //Rounding to 2 decimal places
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,34 +49,36 @@ public class MainActivity extends AppCompatActivity {
         total = findViewById(R.id.total);
         salesTax = findViewById(R.id.sales_tax);
 
-        // SALES TAX (8.25% by default)
+        itemName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemName.setText("");
+            }
+        });
+
+        salesTax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                salesTax.setText("");
+            }
+        });
+        sales_Tax = Double.parseDouble(salesTax.getText().toString()) / 100;
 
         compute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sales_Tax = Double.parseDouble(salesTax.getText().toString()) / 100;
+
                 String name = itemName.getText().toString();
                 double price = Double.parseDouble(itemPrice.getText().toString());
                 price = Math.round(price*100.0) / 100.0;  //Rounding to 2 decimal places
                 double quantity = Double.parseDouble(itemQuantity.getText().toString());
+
+                // Adds the item to the Shopping Items list
                 shoppingItems.add(new Item(name, price, quantity));
                 if (quantity > 0 && price > 0) {
                     //CODE FOR COMPUTING TOTAL AMOUNT AND ADDING FIRST ITEM
                     computeTotal();
                     total.setText(Double.toString(Total));
-
-
-
-
-                    // Last lines of onClickListener enables AddItem and ShowList buttons
-                    // and changes color of text from gray to black
-                    // Add item and price to both lists.
-                    addItem.setEnabled(true);
-                    showList.setEnabled(true);
-                    addItem.setTextColor(Color.BLACK);
-                    showList.setTextColor(Color.BLACK);
-                    compute.setEnabled(false);
-                    compute.setTextColor(Color.GRAY);
                 }
             }
         });
@@ -104,4 +100,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        computeTotal();
+        total.setText(Double.toString(Total));
+    }
+
 }

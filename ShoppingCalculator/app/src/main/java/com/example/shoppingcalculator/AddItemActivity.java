@@ -32,10 +32,12 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        String item_name = showItems.getText().toString();
-        double item_price = Double.parseDouble(itemPrice.getText().toString());
+        // Assign Item values
+        String item_name = itemName.getText().toString();
+        double item_price = Math.round(Double.parseDouble(itemPrice.getText().toString()));
         item_price = Math.round(item_price*100.0) / 100.0;  //Rounding to 2 decimal places
         double quantity = Double.parseDouble(itemQuantity.getText().toString());
+
         if (quantity > 0 && item_price > 0) {
             MainActivity.shoppingItems.add(new Item(item_name, item_price, quantity));
             Intent intent = new Intent(AddItemActivity.this, MainActivity.class);
