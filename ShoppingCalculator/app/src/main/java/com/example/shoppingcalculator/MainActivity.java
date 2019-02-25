@@ -14,10 +14,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     Button compute, addItem, showList;
-    EditText itemName, itemPrice, itemQuantity, total;
-    double salesTax;
+    EditText itemName, itemPrice, itemQuantity, total, salesTax;
     public static List<String> itemNameList = new ArrayList<String>();
     public static List<Double> itemPrices = new ArrayList<Double>();
+    public static double Price = 0.0;
+    public double sales_Tax = 0.0;
+
+    public void computePrice() {
+        for (int i = 0; i < itemPrices.size(); i++) {
+            Price = Price + itemPrices.get(i);
+        }
+        Price = (Price * sales_Tax) + Price;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
         itemPrice = findViewById(R.id.item_price);
         itemQuantity = findViewById(R.id.quantity);
         total = findViewById(R.id.total);
+        salesTax = findViewById(R.id.sales_tax);
 
         // Default Sales Tax
-        salesTax = .0825;
+        double sales_Tax = Double.parseDouble(salesTax.getText().toString());
 
         compute.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 int items = Integer.parseInt(itemQuantity.getText().toString());
                 double price = Double.parseDouble(itemPrice.getText().toString());
                 if (items > 0 && price > 0) {
+                    MainActivity.itemPrices.add(price);
+                    computePrice();
                     //CODE FOR COMPUTING TOTAL AMOUNT AND ADDING FIRST ITEM
 
 
@@ -52,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                     // Last lines of onClickListener enables AddItem and ShowList buttons
                     // and changes color of text from gray to black
                     // Add item and price to both lists.
-                    MainActivity.itemPrices.add(price);
                     addItem.setEnabled(true);
                     showList.setEnabled(true);
                     addItem.setTextColor(Color.BLACK);
@@ -79,4 +89,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    /*
+    @Override
+    public void onResume() {
+        super.onResume();
+        computePrice();
+    }
+    */
 }
