@@ -1,6 +1,7 @@
 package com.example.shoppingcalculator;
 
 public class Item {
+    // Variables for the Item
     private String name;
     private Double price;
     private Double quantity;
