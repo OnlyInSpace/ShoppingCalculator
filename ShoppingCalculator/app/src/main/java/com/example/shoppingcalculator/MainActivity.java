@@ -15,20 +15,19 @@ public class MainActivity extends AppCompatActivity {
 
     Button compute, addItem, showList;
     EditText itemName, itemPrice, itemQuantity, total, salesTax;
-    public static List<String> itemNameList = new ArrayList<String>();
-    public static List<Double> itemPrices = new ArrayList<Double>();
-    public static double Price = 0.0;
+    public static List<Item> shoppingItems = new ArrayList<Item>();
+
+    // Global Variables
+    public static double Total = 0.0;
     public double sales_Tax = 0.0;
 
-
-    public void computePrice() {
-        for (int i = 0; i < itemPrices.size(); i++) {
-            Price = Price + itemPrices.get(i);
+    public void computeTotal() {
+        for (Item item: shoppingItems){
+            Total += item.getTotal();
+            double temp = Total * sales_Tax;
+            Total = Total + temp;
         }
-        Price = (Price * sales_Tax) + Price;
-        Price = Math.round(Price * 100) / 100.0;
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,21 +45,21 @@ public class MainActivity extends AppCompatActivity {
         total = findViewById(R.id.total);
         salesTax = findViewById(R.id.sales_tax);
 
-        // Default Sales Tax
+        // SALES TAX (8.25% by default)
         sales_Tax = Double.parseDouble(salesTax.getText().toString()) / 100;
 
         compute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int items = Integer.parseInt(itemQuantity.getText().toString());
+
+                String name = itemName.getText().toString();
                 double price = Double.parseDouble(itemPrice.getText().toString());
-                if (items > 0 && price > 0) {
-                    MainActivity.itemPrices.add(price);
-                    computePrice();
-                    total.setText(Double.toString(Price));
-
-
+                double quantity = Double.parseDouble(itemQuantity.getText().toString());
+                shoppingItems.add(new Item(name, price, quantity));
+                if (quantity > 0 && price > 0) {
                     //CODE FOR COMPUTING TOTAL AMOUNT AND ADDING FIRST ITEM
+                    computeTotal();
+                    total.setText(Double.toString(Total));
 
 
 
@@ -94,11 +93,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    /*
-    @Override
-    public void onResume() {
-        super.onResume();
-        computePrice();
-    }
-    */
 }

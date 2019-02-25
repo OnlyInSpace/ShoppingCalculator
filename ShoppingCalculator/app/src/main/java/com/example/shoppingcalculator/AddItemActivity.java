@@ -9,8 +9,6 @@ import android.widget.EditText;
 import java.util.List;
 
 public class AddItemActivity extends AppCompatActivity {
-
-    Button addItem;
     EditText itemName, itemPrice, itemQuantity, showItems;
 
     @Override
@@ -25,22 +23,8 @@ public class AddItemActivity extends AppCompatActivity {
         itemQuantity = findViewById(R.id.addItem_Quantity);
 
         // Show number of Items
-        String size = String.valueOf(MainActivity.itemPrices.size());
+        String size = String.valueOf(MainActivity.shoppingItems.size());
         showItems.setText(size);
-
-        addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //CODE FOR ADDING AN ITEM TO BOTH LISTS
-
-
-
-
-                //Refresh the total amount of items in list
-                String size = String.valueOf(MainActivity.itemPrices.size());
-                showItems.setText(size);
-            }
-        });
 
 
     }
