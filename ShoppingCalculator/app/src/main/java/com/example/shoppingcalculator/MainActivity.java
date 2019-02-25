@@ -20,11 +20,13 @@ public class MainActivity extends AppCompatActivity {
     public static double Price = 0.0;
     public double sales_Tax = 0.0;
 
+
     public void computePrice() {
         for (int i = 0; i < itemPrices.size(); i++) {
             Price = Price + itemPrices.get(i);
         }
         Price = (Price * sales_Tax) + Price;
+        Price = Math.round(Price * 100) / 100.0;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         salesTax = findViewById(R.id.sales_tax);
 
         // Default Sales Tax
-        double sales_Tax = Double.parseDouble(salesTax.getText().toString());
+        sales_Tax = Double.parseDouble(salesTax.getText().toString()) / 100;
 
         compute.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 if (items > 0 && price > 0) {
                     MainActivity.itemPrices.add(price);
                     computePrice();
+                    total.setText(Double.toString(Price));
+
+
                     //CODE FOR COMPUTING TOTAL AMOUNT AND ADDING FIRST ITEM
 
 

@@ -24,7 +24,7 @@
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="text"
             android:id="@+id/item_name"
             android:layout_marginRight="15dp"
             android:textSize="15dp"
@@ -109,7 +109,7 @@
             android:inputType="numberDecimal"
             android:id="@+id/sales_tax"
             android:layout_marginRight="15dp"
-            android:text="8.25%"
+            android:text="8.25"
             android:textSize="15dp"
             android:textColor="#808080"
             />
