@@ -139,6 +139,7 @@
             android:textSize="15dp"
             android:layout_marginRight="15dp"
             android:textColor="#808080"
+            android:focusable="false"
             />
     </LinearLayout>
     <!-- Row 6 contains the compute Button !-->
